@@ -1,11 +1,13 @@
 name: Deploy Shared Library
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+    # 1. الفلتر: الروبوت ده مش هيصحى غير لما التعديل يمس المكتبة دي بس
     paths:
-      - '9-EJad-Shared/**'
+      - '9-EJad-Package/**'
 
 jobs:
   build-and-publish:
@@ -14,18 +16,19 @@ jobs:
       contents: read
       packages: write
 
+    # 2. التوجيه: الروبوت هيدخل جوه الفولدر ده ينفذ الأوامر
     defaults:
       run:
-         working-directory: 9-EJad-Shared
+        working-directory: 9-EJad-Package
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js and Create .npmrc
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
           registry-url: 'https://npm.pkg.github.com'
           scope: '@3brazek234'
 
