@@ -16,8 +16,6 @@ lib/
 
 .npmrc
 
-docker-volumes/
-docker-data/
 
 .DS_Store
 Thumbs.db

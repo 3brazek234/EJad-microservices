@@ -1,0 +1,22 @@
+{
+  "name": "2-notification-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r tsconfig-paths/register src/app.ts",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.9.3",
+    "typescript-transform-paths": "^3.5.5"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0"
+  }
+}
