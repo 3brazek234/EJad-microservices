@@ -86,5 +86,5 @@ export {
   isDataURL,
   isEmail,
   lowerCase,
-  toUpperCase,
+  toUpperCase
 } from './helper';
