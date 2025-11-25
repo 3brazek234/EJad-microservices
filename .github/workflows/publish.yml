@@ -16,8 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: 9-EJad-Shared
-
+         working-directory: 9-EJad-Shared
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
