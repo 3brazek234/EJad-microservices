@@ -12,7 +12,7 @@ export function uploads(
     cloudinary.v2.uploader.upload(
       file,
       { public_id, overwrite, invalidate, resource_type: 'auto' },
-      (err, result) => {
+      (err: any, result: any) => {
         if (err) {
           reject(err);
         }
@@ -37,7 +37,7 @@ export function videosUploads(
         chunk_size: 6000000,
         resource_type: 'video',
       },
-      (err, result) => {
+      (err: any, result: any) => {
         if (err) {
           reject(err);
         }
