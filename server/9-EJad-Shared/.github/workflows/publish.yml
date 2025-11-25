@@ -1,0 +1,42 @@
+name: Deploy Shared Library
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/9-EJad-Shared/**'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    defaults:
+      run:
+        working-directory: server/9-EJad-Shared
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and Create .npmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@3brazek234'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Library
+        run: npm run build
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,93 @@
+version: '3.9'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6380:6379"
+    command: redis-server --loglevel warning
+    volumes:
+      - ./docker-volumes/cache:/data
+
+  mongodb:
+    container_name: mongodb_container
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./docker-volumes/data:/data/db
+
+  mysql:
+    container_name: mysql_container
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_USER=ejad
+      - MYSQL_DATABASE=ejad_auth
+      - MYSQL_ROOT_PASSWORD=api
+      - MYSQL_PASSWORD=api
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker-volumes/mysql:/var/lib/mysql
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=ejad
+      - POSTGRES_DB=ejad_auth
+      - POSTGRES_PASSWORD=api
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-volumes/postgres:/var/lib/postgresql/data
+
+  rabbitmq:
+    container_name: rabbitmq_container
+    image: rabbitmq:3.13-rc-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"   # للتعامل مع الكود
+      - "15672:15672" # لواجهة الموقع Management UI
+
+  elasticsearch:
+    container_name: elasticsearch_container
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+    restart: always
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    volumes:
+      - ./docker-volumes/elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+
+  kibana:
+    container_name: kibana_container
+    image: docker.elastic.co/kibana/kibana:8.11.1
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch_container:9200
+    networks:
+      - elastic
+    depends_on:
+      - elasticsearch
+    # لو معندكش ملف كونفيج جنب الدوكر فايل، اعمل كومنت للسطر اللي تحت ده عشان ميضربش ايرور
+    # volumes:
+    #   - ./kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+
+networks:
+  elastic:
+    name: elastic

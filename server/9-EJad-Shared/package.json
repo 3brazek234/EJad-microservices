@@ -22,7 +22,7 @@
   "author": "3brazek234",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/3brazek234/EJad-microservices/tree/main/9-EJad-Shared.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
