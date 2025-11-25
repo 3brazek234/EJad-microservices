@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'server/9-EJad-Shared/**'
+      - '9-EJad-Shared/**'
 
 jobs:
   build-and-publish:
