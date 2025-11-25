@@ -41,4 +41,4 @@ export const winstonLogger = (
     transports: [new winston.transports.Console(options.console), esTransport],
   });
   return logger;
-};
+}
