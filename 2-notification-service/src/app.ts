@@ -12,5 +12,5 @@ const log: Logger = winstonLogger(
 function initialize(): void {
   const app: Express = express();
   start(app);
-  log.info("Notification service initialized");
+  log.info('Notification service initialized')
 }
