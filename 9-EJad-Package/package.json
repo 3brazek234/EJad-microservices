@@ -1,6 +1,6 @@
 {
   "name": "@3brazek234/ejad-shared",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "./build/cjs/index.js",
   "types": "./build/src/index.d.ts",
