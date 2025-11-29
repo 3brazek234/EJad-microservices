@@ -55,7 +55,7 @@ services:
       - RABITMQ_DEFAULT_USER=myuser
       - RABBITMQ_DEFAULT_PASS=01065750357exxe
     ports:
-      - "5672:5672"   # للتعامل مع الكود
+      - "5672:5672" # للتعامل مع الكود
       - "15672:15672" # لواجهة الموقع Management UI
 
   elasticsearch:
@@ -70,10 +70,16 @@ services:
       - bootstrap.memory_lock=true
       - discovery.type=single-node
       - xpack.security.enabled=false
+    # ✅ التعديل هنا: استخدام Named Volume بدلاً من المجلد المحلي
     volumes:
-      - ./docker-volumes/elasticsearch:/usr/share/elasticsearch/data
+      - elasticsearch-data:/usr/share/elasticsearch/data
     networks:
       - elastic
+    # إضافة ulimits لزيادة كفاءة Elasticsearch (اختياري لكن مفضل)
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   kibana:
     container_name: kibana_container
@@ -87,9 +93,10 @@ services:
       - elastic
     depends_on:
       - elasticsearch
-    # لو معندكش ملف كونفيج جنب الدوكر فايل، اعمل كومنت للسطر اللي تحت ده عشان ميضربش ايرور
-    # volumes:
-    #   - ./kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+
+volumes:
+  elasticsearch-data:
+    driver: local
 
 networks:
   elastic:

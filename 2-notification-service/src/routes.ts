@@ -1,7 +1,12 @@
-import express, { Request, Response, Router } from "express";
+// 1. شيلنا كلمة express من هنا، واستدعينا Router مباشرة
+import { Request, Response, Router } from "express"; 
 import { StatusCodes } from "http-status-codes";
-const router: Router = express.Router();
+
+// 2. استخدمنا Router() علطول من غير express.
+const router: Router = Router();
+
 router.get("/notification-health", (req: Request, res: Response) => {
   res.status(StatusCodes.OK).send("Notification service is healthy and OK.");
 });
+
 export { router as healthRoutes };

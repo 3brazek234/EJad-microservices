@@ -1,7 +1,8 @@
-import { winstonLogger } from "@3brazek234/ejad-shared/build/src/logger.js";
 import { Client } from "@elastic/elasticsearch";
+import { winstonLogger } from "@3brazek234/ejad-shared";
+
 import { Logger } from "winston";
-import { config } from "./config.js";
+import { config } from "./config";
 import { ClusterHealthHealthResponseBody } from "@elastic/elasticsearch/lib/api/types.js";
 const log: Logger = winstonLogger(
   `${config.ELASTIC_SEARCH_URL}`,

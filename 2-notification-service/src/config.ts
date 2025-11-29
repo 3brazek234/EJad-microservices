@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config({});
+import "dotenv/config"; // ✅ دي الطريقة المختصرة والآمنةrt
+
 class Config {
   public NODE_ENV: string | undefined;
   public CLIENT_URL: string | undefined;

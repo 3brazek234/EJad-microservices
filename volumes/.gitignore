@@ -1,2 +1,4 @@
 docker-volumes
 docker-data
+docker-compose.yaml
+kibana.yml

@@ -3,6 +3,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "lib": ["dom", "ES2015"],
