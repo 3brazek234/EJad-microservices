@@ -10,7 +10,6 @@ const log: Logger = winstonLogger(
 
 export const connet = async (): Promise<Channel | undefined> => {
   try {
-    // اول حاجه بعمل ال connect بعدين اعمل creation to channel
     const connection: Connection = await client.connect(
       `${config.RABBITMQ_ENDPOINT}`
     );
