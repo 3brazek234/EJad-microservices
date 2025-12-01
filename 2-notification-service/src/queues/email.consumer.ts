@@ -1,8 +1,9 @@
-import { winstonLogger } from "@3brazek234/ejad-shared";
+import { IEmailLocals, winstonLogger } from "@3brazek234/ejad-shared";
 import { config } from "@notifications/config";
 import { Channel, ConsumeMessage } from "amqplib";
 import { Logger } from "winston";
 import { connectToRabbit } from "./connection";
+import { sendEmail } from "./mail.transport";
 
 const log: Logger = winstonLogger(
   `${config.ELASTIC_SEARCH_URL}`,
@@ -21,7 +22,15 @@ export const authEmailConsumer = async (channel: Channel) => {
     const EJadQueue = await channel.assertQueue(queueName, { durable: true });
     await channel.bindQueue(EJadQueue.queue, exchangeName, routingKey);
     channel.consume(EJadQueue.queue, async (msg: ConsumeMessage | null) => {
-      console.log(JSON.parse(msg!.content.toString()));
+      const { receiverEmail, username, verifyLink, reserLink, templete } =
+        JSON.parse(msg!.content.toString());
+      const locals: IEmailLocals = {
+        appLink: `${config.CLIENT_URL}`,
+        appIcon: "https://i.ibb.co/kyp2m0t/cover.png",
+        username,
+        verifyLink,
+      };
+      await sendEmail(templete, receiverEmail, locals);
     });
   } catch (error) {
     log.error(
