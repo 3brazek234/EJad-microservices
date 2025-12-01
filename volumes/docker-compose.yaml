@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.9' # اختياري في V2
 
 services:
   redis:
@@ -45,18 +45,18 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker-volumes/postgres:/var/lib/postgresql/data
+      - ./docker-volumes/postgres:/var/lib/postgresql # مسار صحيح للإصدارات الجديدة
 
   rabbitmq:
     container_name: rabbitmq_container
-    image: rabbitmq:3.13-rc-management-alpine
+    image: rabbitmq:3.13-rc-management-alpine # صورة مع واجهة الإدارة
     restart: always
     environment:
-      - RABITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_USER=myuser
       - RABBITMQ_DEFAULT_PASS=01065750357exxe
     ports:
-      - "5672:5672" # للتعامل مع الكود
-      - "15672:15672" # لواجهة الموقع Management UI
+      - "5672:5672"
+      - "15672:15672"
 
   elasticsearch:
     container_name: elasticsearch_container
@@ -70,12 +70,10 @@ services:
       - bootstrap.memory_lock=true
       - discovery.type=single-node
       - xpack.security.enabled=false
-    # ✅ التعديل هنا: استخدام Named Volume بدلاً من المجلد المحلي
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-data:/usr/share/elasticsearch/data # Named Volume
     networks:
       - elastic
-    # إضافة ulimits لزيادة كفاءة Elasticsearch (اختياري لكن مفضل)
     ulimits:
       memlock:
         soft: -1

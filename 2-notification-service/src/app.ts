@@ -10,9 +10,9 @@ const log: Logger = winstonLogger(
   "debug"
 );
 
-function initialize(): void {
+async function initialize(): Promise<void> {
   const app: Application = express(); // تحديد نوع المتغير app
-  start(app);
+ await start(app);
   log.info('Notification service initialized')
 }
 
