@@ -6,7 +6,7 @@ import http from "http";
 import { healthRoutes } from "./routes";
 import { checkConnection as checkElasticConnection } from "./elasticsearch";
 import { connectToRabbit } from "./queues/connection";
-import { notificationConsumer } from "./queues/email.consumer";
+import { authEmailConsumer, orderEmailConsumer } from "./queues/email.consumer";
 
 const SERVER_PORT = 4000;
 const log: Logger = winstonLogger(
@@ -21,7 +21,8 @@ const startQueue = async (): Promise<boolean> => {
     log.error("Failed to connect to RabbitMQ. Email consumer not started.");
     return false;
   }
-  notificationConsumer(channelEmail);
+  orderEmailConsumer(channelEmail);
+  authEmailConsumer(channelEmail);
   log.info("Email consumer started successfully.");
   return true;
 };

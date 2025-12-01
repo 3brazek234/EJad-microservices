@@ -9,39 +9,41 @@ const log: Logger = winstonLogger(
   "notification-server",
   "debug"
 );
-export const notificationConsumer = async (channel: Channel) => {
+export const authEmailConsumer = async (channel: Channel) => {
   try {
     if (!channel) {
       channel = (await connectToRabbit()) as Channel;
     }
-    const exchangeName = "notification-direct-exchange";
-    const queueName = "all-notifications-queue";
+    const exchangeName = "EJad-Notification-Email";
+    const queueName = "auth-email-queue";
     const routingKey = "auth-email";
-    // assert التاكد من ان ال Exchange موجوده ولا لا
     await channel.assertExchange(exchangeName, "direct");
-    // assert التاكد من ان ال Queue موجوده ولا لا
-
-    const QueueName = await channel.assertQueue(queueName, { durable: true });
-    await channel.bindQueue(QueueName.queue, exchangeName, "notify.order");
-    await channel.bindQueue(QueueName.queue, exchangeName, "notify.auth");
-    await channel.bindQueue(QueueName.queue, exchangeName, "notify.chat");
-    channel.consume(QueueName.queue, async (msg: ConsumeMessage | null) => {
-      if (msg) {
-        const routingKey = msg.fields.routingKey;
-        const content = JSON.parse(msg.content.toString());
-        switch (routingKey) {
-          case "notify.order":
-            break;
-          case "notify.auth":
-            break;
-          case "notify.chat":
-            break;
-          default:
-            console.log("Unknown notification type");
-        }
-
-        channel.ack(msg);
-      }
+    const EJadQueue = await channel.assertQueue(queueName, { durable: true });
+    await channel.bindQueue(EJadQueue.queue, exchangeName, routingKey);
+    channel.consume(EJadQueue.queue, async (msg: ConsumeMessage | null) => {
+      console.log(JSON.parse(msg!.content.toString()));
+    });
+  } catch (error) {
+    log.error(
+      "NotificationeService Email-consumer custom-auth-messages",
+      error
+    );
+    console.log(error);
+  }
+};
+export const orderEmailConsumer = async (channel: Channel) => {
+  try {
+    if (!channel) {
+      channel = (await connectToRabbit()) as Channel;
+    }
+    const exchangeName = "EJad-Notification-Email";
+    const queueName = "order-email-queue";
+    const routingKey = "order-email";
+    await channel.assertExchange(exchangeName, "direct");
+    const EJadQueue = await channel.assertQueue(queueName, { durable: true });
+    await channel.bindQueue(EJadQueue.queue, exchangeName, routingKey);
+    channel.consume(EJadQueue.queue, async (msg: ConsumeMessage | null) => {
+      console.log(JSON.parse(msg!.content.toString()));
     });
   } catch (error) {
     log.error(
