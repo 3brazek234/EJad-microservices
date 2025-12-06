@@ -23,6 +23,16 @@ const startQueue = async (): Promise<boolean> => {
   }
   orderEmailConsumer(channelEmail);
   authEmailConsumer(channelEmail);
+  await channelEmail.assertExchange("EJad-Notification-Email", "direct");
+  const message = JSON.stringify({
+    neme: "jobber",
+    service: "auth notification service",
+  });
+  await channelEmail.publish(
+    "EJad-Notification-Email",
+    "auth-email",
+    Buffer.from(message)
+  );
   log.info("Email consumer started successfully.");
   return true;
 };

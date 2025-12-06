@@ -26,7 +26,7 @@ export const authEmailConsumer = async (channel: Channel) => {
         JSON.parse(msg!.content.toString());
       const locals: IEmailLocals = {
         appLink: `${config.CLIENT_URL}`,
-        appIcon: "https://i.ibb.co/kyp2m0t/cover.png",
+        appIcon: "https://i.ibb.co/Kyp2m0t/cover.png",
         username,
         verifyLink,
       };
